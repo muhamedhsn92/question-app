@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './login_screen.dart';
+import './messenger_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,8 +13,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demp',
       theme: ThemeData(),
 //      home: MyHomePage(),
-
-      home: LoginScreen(),
+//      home: LoginScreen(),
+      home: MessengerScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
