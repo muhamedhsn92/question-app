@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import './login_screen.dart';
 import './messenger_screen.dart';
+import './users_screen.dart';
+import './counter_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +16,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(),
 //      home: MyHomePage(),
 //      home: LoginScreen(),
-      home: MessengerScreen(),
+//      home: MessengerScreen(),
+//      home: UsersScreen(),
+      home: CounterScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
