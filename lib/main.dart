@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import './login_screen.dart';
-import './messenger_screen.dart';
-import './users_screen.dart';
-import './counter_screen.dart';
+import './modules/login/login_screen.dart';
+import './modules/messenger/messenger_screen.dart';
+import './modules/users/users_screen.dart';
+import './modules/counter/counter_screen.dart';
+import './modules/bmi/bmi_calculator_screen.dart';
+import './modules/bmi_result/bmi_result_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,10 +17,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demp',
       theme: ThemeData(),
 //      home: MyHomePage(),
-//      home: LoginScreen(),
+      home: LoginScreen(),
 //      home: MessengerScreen(),
 //      home: UsersScreen(),
-      home: CounterScreen(),
+//      home: CounterScreen(),
+//      home: BmiCalculatorScreen(),
+//      home: BmiResultScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
