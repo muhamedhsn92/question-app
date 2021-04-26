@@ -117,4 +117,12 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppDeleteDataBaseState());
     getDataFromDatabase(database);
   }
+
+  bool isDarkMode = false;
+
+  void changeTheme() {
+    isDarkMode = !isDarkMode;
+    print(isDarkMode);
+    emit(AppChangeModeState());
+  }
 }

@@ -17,3 +17,5 @@ class AppFetchDataBaseState extends AppStates {}
 class AppFetchDataBaseLoadingState extends AppStates {}
 
 class AppChangeBottomSheetState extends AppStates {}
+
+class AppChangeModeState extends AppStates {}
