@@ -9,7 +9,9 @@ import 'package:question_app/layout/wefix_layout/wefix_home_layout.dart';
 import 'package:question_app/shared/components/constants.dart';
 import 'package:question_app/shared/cubit/cubit.dart';
 import 'package:question_app/shared/cubit/states.dart';
+import 'package:question_app/shared/network/local/cache_herlper.dart';
 import 'package:question_app/shared/network/remote/dio_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './modules/login/login_screen.dart';
 import './modules/messenger/messenger_screen.dart';
 import './modules/users/users_screen.dart';
@@ -20,22 +22,31 @@ import 'layout/news_layout/news_layout.dart';
 import 'layout/todo_layout/todo_layout.dart';
 import 'shared/bloc_observer.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
+  await CacheHelper.init();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-    return BlocProvider(
-      create: (BuildContext context) => AppCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (BuildContext context) => AppCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => NewsCubit()..getBusiness(),
+        ),
+      ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          var cubit =AppCubit.get(context);
+          var cubit = AppCubit.get(context);
           return MaterialApp(
             title: 'Flutter Demp',
             // this themeData for all application style

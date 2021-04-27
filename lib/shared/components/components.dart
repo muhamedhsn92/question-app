@@ -1,6 +1,7 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:question_app/modules/web_view/web_view_screen.dart';
 import 'package:question_app/shared/cubit/cubit.dart';
 
 Widget defaultButton({
@@ -156,46 +157,75 @@ Widget buildTaskItem(Map model, context) => Dismissible(
       },
     );
 
-Widget buildArticleItem(articles,context) => Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        children: [
-          Container(
-            width: 120.0,
-            height: 120.0,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  10.0,
-                ),
-                image: DecorationImage(
-                    image: NetworkImage(
-                        'https://i2.wp.com/alghad.com/wp-content/uploads/2020/04/Apple_new-iphone-se-white_04152020_big.jpg.large_.jpg?fit=980%2C1120&ssl=1'),
-                    fit: BoxFit.cover)),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Container(
-            height: 120.0,
-            child: Column(
-              // mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(
-                    '${articles['desc']}',
-                    maxLines: 1,
-                    style: Theme.of(context).textTheme.bodyText1,
+Widget articleBuilder(list, context, {isSearch = false}) => ConditionalBuilder(
+      condition: list.length > 0,
+      builder: (context) => ListView.separated(
+          physics: BouncingScrollPhysics(),
+          itemBuilder: (context, index) {
+            return buildArticleItem(list[index], context);
+          },
+          separatorBuilder: (context, state) => myDivider(),
+          itemCount: list.length),
+      fallback: (context) =>
+          isSearch ? Container() : Center(child: CircularProgressIndicator()),
+    );
+
+Widget buildArticleItem(articles, context) => InkWell(
+      onTap: () {
+        navigateTo(context, WebViewScreen(articles['id'].toString()));
+        print(articles['id'].toString());
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          children: [
+            Container(
+              width: 120.0,
+              height: 120.0,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    10.0,
                   ),
-                ),
-                Text(
-                  '${articles['id']}',
-                  style: TextStyle(color: Colors.grey),
-                )
-              ],
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          'https://i2.wp.com/alghad.com/wp-content/uploads/2020/04/Apple_new-iphone-se-white_04152020_big.jpg.large_.jpg?fit=980%2C1120&ssl=1'),
+                      fit: BoxFit.cover)),
             ),
-          )
-        ],
+            SizedBox(
+              width: 20,
+            ),
+            // IconButton(icon: Icon(Icons.check_circle_outline), onPressed: (){
+            //   print(' article data - ${articles['id']}');
+            // }),
+            Container(
+              height: 120.0,
+              child: Column(
+                // mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${articles['desc']}',
+                      maxLines: 1,
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ),
+                  Text(
+                    '${articles['id']}',
+                    style: TextStyle(color: Colors.grey),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+
+void navigateTo(context, widget) => Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => widget,
       ),
     );

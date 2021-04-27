@@ -5,6 +5,7 @@ import 'package:question_app/modules/archive_tasks/archive_tasks_screen.dart';
 import 'package:question_app/modules/done_tasks/done_tasks_screen.dart';
 import 'package:question_app/modules/new_tasks/new_tasks_screen.dart';
 import 'package:question_app/shared/cubit/states.dart';
+import 'package:question_app/shared/network/local/cache_herlper.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -122,6 +123,9 @@ class AppCubit extends Cubit<AppStates> {
 
   void changeTheme() {
     isDarkMode = !isDarkMode;
+    // to use cacheHelper you will need to add await before init method in main method in main file and add this
+    //  WidgetsFlutterBinding.ensureInitialized();  in the first of main mthod before any init method
+    CacheHelper.putData(key: 'isDarkMode', value: isDarkMode);
     print(isDarkMode);
     emit(AppChangeModeState());
   }

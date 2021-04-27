@@ -41,6 +41,7 @@ class NewsCubit extends Cubit<NewsStates> {
   List<dynamic> business = [];
   List<dynamic> science = [];
   List<dynamic> sports = [];
+  List<dynamic> search = [];
 
   void getBusiness() {
     if (business.length == 0) {
@@ -105,4 +106,19 @@ class NewsCubit extends Cubit<NewsStates> {
     }
   }
 
+  void getSearch(String value) {
+    emit(NewsGetSearchLoadingState());
+    search = [];
+    DioHelper.getData(
+      url: 'inv-stores/find-all-inv-store-by-code-or-desc-lov',
+      query: {'searchKey': value},
+    ).then((value) {
+      print('search value >>> ${value.data.toString()}');
+      search = value.data['resultData']['resultData'];
+      emit(NewsGetSearchSuccessState());
+    }).catchError((error) {
+      print(error);
+      emit(NewsGetSearchErrorState(error.toString()));
+    });
+  }
 }
